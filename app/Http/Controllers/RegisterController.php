@@ -13,8 +13,8 @@ class RegisterController extends Controller
         $signUp->name = $request->name;
         $signUp->email = $request->email;
         $signUp->phone = $request->phone;
-        $signUp->password = Hash::make($request->pasword);
+        $signUp->password = Hash::make($request->password);
         $signUp->save();
         return $signUp;
-      }
+    }
 }
