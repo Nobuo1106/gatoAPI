@@ -10,8 +10,9 @@ class RegisterController extends Controller
 {
     public function register(Request $request) {
         $signUp = new Signup();
-        $signUp->email = $request->email;
         $signUp->name = $request->name;
+        $signUp->email = $request->email;
+        $signUp->phone = $request->phone;
         $signUp->password = Hash::make($request->pasword);
         $signUp->save();
         return $signUp;
