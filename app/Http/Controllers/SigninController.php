@@ -20,7 +20,7 @@ class SignInController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $token = $user->createToken();
+        $token = $user->createToken('my-app-token')->plainTextToken;
 
         return response()->json(['token' => $token]);
     }
