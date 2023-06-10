@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileController;
 
 
 /*
@@ -20,6 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('register', 'App\Http\Controllers\RegisterController@register');
 Route::post('signin', 'App\Http\Controllers\SigninController@signIn');
-Route::get('signin', 'App\Http\Controllers\SigninController@signIn');
-Route::post('upload', 'App\Http\Controllers\FileController@upload')->middleware('auth:sanctum');
-// Route::get('register', 'App\Http\Controllers\RegisterController@register');
+Route::post('upload', [FileController::class, 'store']);

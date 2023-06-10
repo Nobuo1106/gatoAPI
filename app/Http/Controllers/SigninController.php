@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Signup;
+use App\Models\User;
 
 class SignInController extends Controller
 {
@@ -14,7 +14,7 @@ class SignInController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $user = Signup::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
         if (!$user || !Hash::check($password, $user->password)) {
             return response()->json(['error' => 'Unauthorized'], 401);
