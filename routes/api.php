@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FileController;
+use App\Http\Controllers\{RegisterController, SigninController, PostController, CommentController};
 
 
 /*
@@ -19,6 +19,8 @@ use App\Http\Controllers\FileController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('register', 'App\Http\Controllers\RegisterController@register');
-Route::post('signin', 'App\Http\Controllers\SigninController@signIn');
-Route::post('upload', [FileController::class, 'store']);
+
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('signin', [SigninController::class, 'signIn']);
+Route::resource('posts', PostController::class);
+Route::resource('comments', CommentController::class);

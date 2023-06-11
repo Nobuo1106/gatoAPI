@@ -18,9 +18,10 @@ class FileController extends Controller
         // store the file and get the path
         $path = $request->file('file')->store('uploads');
 
-        // create a new File in the database with the path and user_id
+        // create a new File in the database withv the path and user_id
         $file = new File();
         $file->file_path = $path;
+        $file->post_id = $request->post_id;
         $file->user_id = $user->id;
         $file->save();
 
