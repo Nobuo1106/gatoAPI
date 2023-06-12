@@ -6,18 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('signups', function (Blueprint $table) {
+        Schema::dropIfExists('files');
+
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('password');
+            $table->unsignedBigInteger('user_id');
+            $table->string('file_path', 255);
             $table->timestamps();
         });
     }
@@ -29,6 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('signups');
+        Schema::dropIfExists('files');
     }
+
 };
