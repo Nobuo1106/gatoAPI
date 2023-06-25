@@ -3,28 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 use App\Models\File;
 
 class FileController extends Controller
 {
-    public function upload(Request $request)
+    public function uploadImage(Request $request, Post $post)
     {
-        $request->validate([
-            'file' => 'required|file|max:2048', // validating the file input, max 2MB
+        $validated = $request->validate([
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']
         ]);
 
         $user = $request->user(); // get the authenticated user
+        if (!$user || $user->id !== $post->user_id) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
 
-        // store the file and get the path
-        $path = $request->file('file')->store('uploads');
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $validated['image']->getClientOriginalExtension();
+            $filePath = public_path('images') . '/' . $imageName;
+            if ($validated['image']->move(public_path('images'), $imageName)) {
+                $file = File::create([
+                    'user_id' => $user->id,
+                    'file_path' => $filePath,
+                    'post_id' => $post->id
+                ]);
+            } else {
+                return response()->json(['message' => 'File upload failed'], 500);
+            }
+        }
 
-        // create a new File in the database withv the path and user_id
-        $file = new File();
-        $file->file_path = $path;
-        $file->post_id = $request->post_id;
-        $file->user_id = $user->id;
-        $file->save();
-
-        return response()->json(['file_path' => $path], 201);
+        return response()->json([
+            'message' => 'Image uploaded successfully',
+            'file' => $file ?? null,
+        ], 201);
     }
 }
