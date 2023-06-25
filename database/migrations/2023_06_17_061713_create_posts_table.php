@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('signups', function (Blueprint $table) {
-            $table->unique('email');
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->text('body');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('signups', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('posts');
     }
 };

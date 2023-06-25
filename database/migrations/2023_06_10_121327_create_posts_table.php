@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::table('signups', function (Blueprint $table) {
-            $table->string('phone')->change();
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->text('text');
+            $table->string('image')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('signups', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('posts');
     }
 };
